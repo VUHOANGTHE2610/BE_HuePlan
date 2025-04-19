@@ -17,7 +17,7 @@ public class BusinessDTO {
     private String business_Location;
 
     @NotBlank(message = "Chi phí không được để trống")
-    private String business_Cost;
+    private Double business_Cost;
 
     @NotBlank(message = "Số điện thoại không được để trống")
     private String business_phone;

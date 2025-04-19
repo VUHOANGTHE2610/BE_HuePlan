@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "timelines")
 @Data
@@ -13,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class TimeLineEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "timeLine_ID")
     private int timeLine_ID;
 
     @Column(name = "timeLine_Name")
@@ -23,5 +26,5 @@ public class TimeLineEntity {
     private UserEntity user;
 
     @OneToMany(mappedBy = "timeLine", cascade = CascadeType.ALL, orphanRemoval = true)
-    private TimeLineDayEntity timeLineDay;
+    private List<TimeLineDayEntity> timeLineDay;
 }

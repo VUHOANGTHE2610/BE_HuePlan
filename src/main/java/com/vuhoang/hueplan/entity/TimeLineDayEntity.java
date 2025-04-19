@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "timeline_days")
@@ -26,6 +27,6 @@ public class TimeLineDayEntity {
     private TimeLineEntity timeLine;
 
     @OneToMany(mappedBy = "timeLineDay" , cascade = CascadeType.ALL, orphanRemoval = true)
-    private DayItemEntity dayItem;
+    private List<DayItemEntity> dayItem;
 
 }

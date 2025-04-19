@@ -38,10 +38,11 @@ public class UserEntity implements UserDetails {
 
 
     // các mối quan hệ
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private BusinessEntity business;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BusinessEntity> business;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private TimeLineEntity timeLine;
+    private List<TimeLineEntity> timeLine;
 
 
     @Override

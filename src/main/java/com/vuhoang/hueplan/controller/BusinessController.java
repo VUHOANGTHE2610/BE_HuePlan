@@ -26,25 +26,34 @@ public class BusinessController {
     @Autowired
     private BusinessMapper businessMapper;
 
-    @GetMapping
-    public List<BusinessDTO> getAllBusiness(){
-        return businessService.getAllBusiness().stream()
-                .map(businessMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
     @GetMapping("/{id}")
     public BusinessDTO getBusinessById(@PathVariable int businessID){
         BusinessEntity business = businessService.findByBusinessId(businessID);
         return businessMapper.toDTO(business);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public BusinessDTO createBusiness(@Valid @RequestBody BusinessDTO businessDTO){
         UserEntity user = userService.getUser(businessDTO.getUser_ID());
         BusinessEntity businessEntity = businessMapper.toEntity(businessDTO,user);
         BusinessEntity saved = businessService.addBusiness(businessEntity);
         return businessMapper.toDTO(saved);
+    }
+
+    @PutMapping("/update")
+    public int updateBusiness(@Valid @RequestBody BusinessDTO businessDTO){
+        UserEntity user = userService.getUser(businessDTO.getUser_ID());
+        BusinessEntity businessEntity = businessMapper.toEntity(businessDTO,user);
+        return businessService.updateBusiness(businessEntity);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteBusiness(@PathVariable int id){
+        BusinessEntity businessEntity = businessService.findByBusinessId(id);
+        if(businessEntity != null){
+            businessService.deleteBusiness(id);
+        }
+
     }
 
 }

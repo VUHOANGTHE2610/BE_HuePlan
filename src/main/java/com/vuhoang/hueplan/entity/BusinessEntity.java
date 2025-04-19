@@ -25,7 +25,7 @@ public class BusinessEntity {
     private String business_Location;
 
     @Column(name = "cost")
-    private String business_Cost;
+    private Double business_Cost;
 
     @Column(name = "business_phone")
     private String business_phone;
@@ -33,7 +33,7 @@ public class BusinessEntity {
     @Column(name = "business_Description")
     private String business_Description;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_ID", nullable = false)
     private UserEntity user;
 }
