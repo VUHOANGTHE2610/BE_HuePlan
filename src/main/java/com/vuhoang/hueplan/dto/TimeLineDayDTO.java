@@ -12,9 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TimeLineDayDTO {
-    private int day_ID;
-    private LocalDate day_Date;
-    private int timeLine_ID;
 
-    private List<DayItemDTO> list_day_item;
 }

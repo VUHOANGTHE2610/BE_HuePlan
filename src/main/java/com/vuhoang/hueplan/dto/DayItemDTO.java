@@ -10,10 +10,4 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DayItemDTO {
-    private int item_ID;
-    private String item_Title;
-    private LocalTime start_Time;
-    private LocalTime end_Time;
-    private String location;
-    private Double cost;
 }

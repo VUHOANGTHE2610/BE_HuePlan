@@ -10,7 +10,6 @@ public class BusinessMapper {
 
     public BusinessEntity toEntity(BusinessDTO dto, UserEntity user) {
         BusinessEntity entity = new BusinessEntity();
-        entity.setBusiness_ID(dto.getBusiness_ID());
         entity.setBusiness_Photo(dto.getBusiness_Photo());
         entity.setBusiness_Name(dto.getBusiness_Name());
         entity.setBusiness_Location(dto.getBusiness_Location());
@@ -23,14 +22,12 @@ public class BusinessMapper {
 
     public  BusinessDTO toDTO(BusinessEntity entity) {
         BusinessDTO dto = new BusinessDTO();
-        dto.setBusiness_ID(entity.getBusiness_ID());
         dto.setBusiness_Photo(entity.getBusiness_Photo());
         dto.setBusiness_Name(entity.getBusiness_Name());
         dto.setBusiness_Location(entity.getBusiness_Location());
         dto.setBusiness_Cost(entity.getBusiness_Cost());
         dto.setBusiness_phone(entity.getBusiness_phone());
         dto.setBusiness_Description(entity.getBusiness_Description());
-        dto.setUser_ID(entity.getUser().getUser_ID());
         return dto;
     }
 }

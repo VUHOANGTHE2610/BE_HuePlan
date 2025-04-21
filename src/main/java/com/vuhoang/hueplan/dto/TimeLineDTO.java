@@ -11,11 +11,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TimeLineDTO {
-    private int timeLine_ID;
 
-    @NotBlank(message = "Tên không được để trống")
-    private String timeLine_Name;
-
-    private int user_ID;
-    private List<TimeLineDayDTO> list_time_day;
 }

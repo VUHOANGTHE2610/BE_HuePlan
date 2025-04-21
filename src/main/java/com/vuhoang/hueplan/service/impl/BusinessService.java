@@ -19,27 +19,16 @@ public class BusinessService implements I_Business {
     @Autowired
     private I_User userService;
 
-
     public BusinessService(BusinessRepository businessRepository) {
         this.businessRepository = businessRepository;
     }
 
     @Override
     public BusinessEntity findByBusinessId(int businessId) {
+
         return businessRepository.findById(businessId)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy business với ID: " + businessId));
     }
-
-
-    @Override
-    public BusinessEntity addBusiness(BusinessEntity business) {
-        UserEntity user = business.getUser();
-        if (user.getBusiness() != null) {
-            throw new RuntimeException("User đã có một business, không thể tạo thêm!");
-        }
-        return businessRepository.save(business);
-    }
-
     @Override
     public int updateBusiness(BusinessEntity business) {
         return businessRepository.findById(business.getBusiness_ID())

@@ -1,6 +1,7 @@
 package com.vuhoang.hueplan.service.impl;
 
 import com.vuhoang.hueplan.dto.UserDTO;
+import com.vuhoang.hueplan.entity.BusinessEntity;
 import com.vuhoang.hueplan.entity.UserEntity;
 import com.vuhoang.hueplan.repository.UserRepository;
 import com.vuhoang.hueplan.service.I_User;
@@ -26,15 +27,27 @@ public class UserService implements I_User {
         if (userRepository.findByUserEmail(userDTO.getUserEmail()) != null) {
             throw new RuntimeException("Email đã tồn tại");
         }
-
-        // Tạo user mới
         UserEntity user = new UserEntity();
         user.setUserEmail(userDTO.getUserEmail());
-        user.setUser_Password(passwordEncoder.encode(userDTO.getUserPassword())); // Mã hóa mật khẩu
+        user.setUser_Password(passwordEncoder.encode(userDTO.getUserPassword()));
         user.setUser_Name(userDTO.getUserName());
-        user.setRole(userDTO.getRole() != null ? userDTO.getRole() : "Client"); // Mặc định role là client
+        user.setRole(userDTO.getRole());
 
-        // Lưu vào database
+        if (userDTO.getRole().equals("business")) {
+            if (userDTO.getBusinessDTO() == null) {
+                throw new IllegalArgumentException("BusinessDTO không được để trống");
+            }
+            BusinessEntity business = new BusinessEntity();
+            business.setBusiness_Name(userDTO.getBusinessDTO().getBusiness_Name());
+            business.setBusiness_Description(userDTO.getBusinessDTO().getBusiness_Description());
+            business.setBusiness_Location(userDTO.getBusinessDTO().getBusiness_Location());
+            business.setBusiness_phone(userDTO.getBusinessDTO().getBusiness_phone());
+            business.setBusiness_Cost(userDTO.getBusinessDTO().getBusiness_Cost());
+            business.setBusiness_Photo(userDTO.getBusinessDTO().getBusiness_Photo());
+            business.setUser(user);
+            user.setBusiness(business);
+        }
+
         return userRepository.save(user);
     }
 
