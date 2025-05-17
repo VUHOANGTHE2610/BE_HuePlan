@@ -42,7 +42,7 @@ public class BusinessService implements I_Business {
                             exisitingBusiness.setBusiness_Cost(business.getBusiness_Cost());
                             return businessRepository.save(exisitingBusiness).getBusiness_ID();
                         })
-                .orElseThrow(() -> new RuntimeException("không tùn thấy business" + business.getBusiness_ID()));
+                .orElseThrow(() -> new RuntimeException("không tim thấy business" + business.getBusiness_ID()));
     }
 
     @Override
