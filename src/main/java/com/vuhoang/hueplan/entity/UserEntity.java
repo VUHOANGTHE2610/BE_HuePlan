@@ -37,11 +37,14 @@ public class UserEntity implements UserDetails {
     private String role;
 
 
+
     // các mối quan hệ
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
     private BusinessEntity business;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<TimeLineEntity> timeLine;
 
 

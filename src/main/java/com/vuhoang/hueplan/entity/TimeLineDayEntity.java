@@ -24,9 +24,11 @@ public class TimeLineDayEntity {
 
     @ManyToOne
     @JoinColumn(name = "timeLine_ID", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private TimeLineEntity timeLine;
 
     @OneToMany(mappedBy = "timeLineDay" , cascade = CascadeType.ALL, orphanRemoval = true)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<DayItemEntity> dayItem;
 
 }

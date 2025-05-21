@@ -3,6 +3,7 @@ package com.vuhoang.hueplan.controller;
 import com.vuhoang.hueplan.entity.ApiResponse;
 import com.vuhoang.hueplan.entity.UserEntity;
 import com.vuhoang.hueplan.service.impl.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@SecurityRequirement(name = "bearerAuth")
 public class   UserController {
     private final UserService userService;
 

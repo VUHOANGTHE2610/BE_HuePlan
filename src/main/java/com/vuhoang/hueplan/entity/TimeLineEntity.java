@@ -21,10 +21,12 @@ public class TimeLineEntity {
     @Column(name = "timeLine_Name")
     private String timeLine_Name;
 
+    @OneToMany(mappedBy = "timeLine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
+    private List<TimeLineDayEntity> timeLineDay;
+
     @ManyToOne
     @JoinColumn(name = "user_ID", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private UserEntity user;
-
-    @OneToMany(mappedBy = "timeLine", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TimeLineDayEntity> timeLineDay;
 }

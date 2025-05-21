@@ -46,13 +46,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors() // ✅ Kích hoạt CORS trong security
+                .cors() // Kích hoạt CORS trong security
                 .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(
+                .requestMatchers(   
                         "/api/auth/**",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",

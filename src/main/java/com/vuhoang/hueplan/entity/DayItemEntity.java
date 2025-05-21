@@ -33,8 +33,14 @@ public class DayItemEntity {
     @Column(name = "cost")
     private Double cost;
 
+    @Column(name = "note")
+    private String note;
+
     @ManyToOne
     @JoinColumn(name = "day_ID", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private TimeLineDayEntity timeLineDay;
+
+
 
 }

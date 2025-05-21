@@ -5,6 +5,7 @@ import com.vuhoang.hueplan.entity.ApiResponse;
 import com.vuhoang.hueplan.entity.TimeLineEntity;
 import com.vuhoang.hueplan.entity.UserEntity;
 import com.vuhoang.hueplan.service.I_TimeLine;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/client/timeLine")
+@SecurityRequirement(name = "bearerAuth")
 public class TimelineController {
 
     @Autowired
