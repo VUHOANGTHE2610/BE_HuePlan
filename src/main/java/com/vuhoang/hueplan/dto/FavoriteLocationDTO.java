@@ -1,0 +1,4 @@
+package com.vuhoang.hueplan.dto;
+
+public class FavoriteLocationDTO {
+}

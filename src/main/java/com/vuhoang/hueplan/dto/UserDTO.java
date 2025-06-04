@@ -20,7 +20,4 @@ public class UserDTO {
 
     @NotBlank(message = "Vai trò không được để trống")
     private String role;
-
-    @JsonProperty("business")
-    private BusinessDTO businessDTO;
 }

@@ -1,13 +1,13 @@
 package com.vuhoang.hueplan.service.impl;
 
 import com.vuhoang.hueplan.dto.UserDTO;
-import com.vuhoang.hueplan.entity.BusinessEntity;
 import com.vuhoang.hueplan.entity.UserEntity;
 import com.vuhoang.hueplan.repository.UserRepository;
 import com.vuhoang.hueplan.service.I_User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -32,22 +32,6 @@ public class UserService implements I_User {
         user.setUser_Password(passwordEncoder.encode(userDTO.getUserPassword()));
         user.setUser_Name(userDTO.getUserName());
         user.setRole(userDTO.getRole());
-
-        if (userDTO.getRole().equals("business")) {
-            if (userDTO.getBusinessDTO() == null) {
-                throw new IllegalArgumentException("BusinessDTO không được để trống");
-            }
-            BusinessEntity business = new BusinessEntity();
-            business.setBusiness_Name(userDTO.getBusinessDTO().getBusiness_Name());
-            business.setBusiness_Description(userDTO.getBusinessDTO().getBusiness_Description());
-            business.setBusiness_Location(userDTO.getBusinessDTO().getBusiness_Location());
-            business.setBusiness_phone(userDTO.getBusinessDTO().getBusiness_phone());
-            business.setBusiness_Cost(userDTO.getBusinessDTO().getBusiness_Cost());
-            business.setBusiness_Photo(userDTO.getBusinessDTO().getBusiness_Photo());
-            business.setUser(user);
-            user.setBusiness(business);
-        }
-
         return userRepository.save(user);
     }
 
@@ -61,6 +45,7 @@ public class UserService implements I_User {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserEntity> getAllUser() {
         System.out.println("API getAllUser được gọi!");
         return userRepository.findAll();

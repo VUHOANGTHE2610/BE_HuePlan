@@ -56,13 +56,15 @@ public class SecurityConfig {
                         "/api/auth/**",
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
-                        "/swagger-ui.html"
+                        "/swagger-ui.html",
+                        "/location/**"
                 ).permitAll()
                 .requestMatchers("/api/admin/**").hasRole("admin")
                 .requestMatchers("/api/cooperator/**").hasRole("cooperator")
                 .requestMatchers("/api/client/**").hasRole("client")
                 .requestMatchers("/api/business/**").hasRole("business")
                 .requestMatchers("/api/users/**").hasAnyRole("admin", "cooperator")
+                .requestMatchers("/api/location/**").hasAnyRole("admin", "cooperator", "business", "client")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

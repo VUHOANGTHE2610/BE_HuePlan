@@ -3,9 +3,7 @@ package com.vuhoang.hueplan.controller;
 import com.vuhoang.hueplan.dto.LoginResponse;
 import com.vuhoang.hueplan.dto.RegisterResponse;
 import com.vuhoang.hueplan.dto.UserDTO;
-import com.vuhoang.hueplan.entity.BusinessEntity;
 import com.vuhoang.hueplan.entity.UserEntity;
-import com.vuhoang.hueplan.service.I_Business;
 import com.vuhoang.hueplan.service.impl.UserService;
 import com.vuhoang.hueplan.util.JwtUtil;
 import jakarta.validation.Valid;
@@ -15,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,9 +28,6 @@ public class AuthController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private I_Business iBusiness;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {

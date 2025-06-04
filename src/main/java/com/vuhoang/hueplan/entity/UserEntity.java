@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,32 +35,28 @@ public class UserEntity implements UserDetails {
     @Column(name = "role")  // (client - Admin - cooperator - business)
     private String role;
 
-
-
-    // các mối quan hệ
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @com.fasterxml.jackson.annotation.JsonManagedReference
-    private BusinessEntity business;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<TimeLineEntity> timeLine;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
+    private List<LocationEntity> location;
 
     @Override
-    @Transient  // Không ánh xạ phương thức này vào database
+    @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     @Override
-    @Transient  // Không ánh xạ phương thức này vào database
+    @Transient
     public String getPassword() {
         return user_Password;
     }
 
     @Override
-    @Transient  // Không ánh xạ phương thức này vào database
+    @Transient
     public String getUsername() {
         return userEmail;  // Sử dụng email làm username
     }

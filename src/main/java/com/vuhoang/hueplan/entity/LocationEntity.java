@@ -5,11 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Location {
+@Table(name = "location")
+public class LocationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int location_ID;
@@ -20,17 +23,23 @@ public class Location {
     @Column(name = "location_Description")
     private String location_Description;
 
-    @Column(name = "location_Photos")
-    private String location_Photos;
-
     @Column(name = "location_Cost")
     private Float location_Cost;
 
-    @Column(name = "Location_Address")
-    private String Location_Address;
+    @Column(name = "location_Address")
+    private String location_Address;
+
+    @Column(name = "isStatus")
+    private boolean isStatus;
+
+    @Column(name = "createBy")
+    private String createBy;
 
     @ManyToOne
     @JoinColumn(name = "user_ID", nullable = false)
     @com.fasterxml.jackson.annotation.JsonBackReference
     private UserEntity user;
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LocationPhotoEntity> photos;
 }
