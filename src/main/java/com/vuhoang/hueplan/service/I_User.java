@@ -1,14 +1,14 @@
 package com.vuhoang.hueplan.service;
 
+import com.vuhoang.hueplan.dto.UserDTO;
 import com.vuhoang.hueplan.entity.UserEntity;
 
 import java.util.List;
 
 public interface I_User {
 
-     UserEntity getUser (int userID);
-     List<UserEntity> getAllUser ();
-     UserEntity addUser (UserEntity user);
-     int updateUser (UserEntity user);
+     UserDTO getUser (int userID);
+     List<UserDTO> getAllUser ();
+     int updateUser (UserDTO user);
      boolean deleteUser (int userID);
 }

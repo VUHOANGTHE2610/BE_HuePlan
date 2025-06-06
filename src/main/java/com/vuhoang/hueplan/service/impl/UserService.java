@@ -2,6 +2,7 @@ package com.vuhoang.hueplan.service.impl;
 
 import com.vuhoang.hueplan.dto.UserDTO;
 import com.vuhoang.hueplan.entity.UserEntity;
+import com.vuhoang.hueplan.mapper.UserMapper;
 import com.vuhoang.hueplan.repository.UserRepository;
 import com.vuhoang.hueplan.service.I_User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService implements I_User {
     @Autowired
     private final UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -39,33 +45,32 @@ public class UserService implements I_User {
     public UserEntity findByEmail(String email) {
         return userRepository.findByUserEmail(email);
     }
+
     @Override
-    public UserEntity getUser(int userID) {
-        return userRepository.getReferenceById(userID);
+    @Transactional(readOnly = true)
+    public UserDTO getUser(int userID) {
+        return userRepository.findById(userID)
+                .map(userMapper::toDTO)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID: " + userID));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserEntity> getAllUser() {
-        System.out.println("API getAllUser được gọi!");
-        return userRepository.findAll();
+    public List<UserDTO> getAllUser() {
+        return userRepository.findAll().stream().map(userMapper::toDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public UserEntity addUser(UserEntity user) {
-        return userRepository.save(user);
-    }
 
     @Override
-    public int updateUser(UserEntity user) {
-        return userRepository.findById(user.getUser_ID())
+    public int updateUser(UserDTO user) {
+        UserEntity userEntity = userMapper.toEntity(user);
+        return userRepository.findById(userEntity.getUser_ID())
                 .map(existingUser -> {
-                    existingUser.setUser_Name(user.getUser_Name());
-                    existingUser.setUserEmail(user.getUserEmail());
-                    existingUser.setUser_Password(user.getUser_Password());
+                    existingUser.setUser_Name(userEntity.getUser_Name());
+                    existingUser.setUserEmail(userEntity.getUserEmail());
                     return userRepository.save(existingUser).getUser_ID(); // Lưu user đã cập nhật
                 })
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy User: " + user.getUser_ID()));
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy User: " + userEntity.getUser_ID()));
     }
 
     @Override

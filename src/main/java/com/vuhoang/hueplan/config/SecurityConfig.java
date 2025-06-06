@@ -60,11 +60,12 @@ public class SecurityConfig {
                         "/location/**"
                 ).permitAll()
                 .requestMatchers("/api/admin/**").hasRole("admin")
-                .requestMatchers("/api/cooperator/**").hasRole("cooperator")
+                .requestMatchers("/api/cooperator/**").hasRole("staff")
                 .requestMatchers("/api/client/**").hasRole("client")
                 .requestMatchers("/api/business/**").hasRole("business")
-                .requestMatchers("/api/users/**").hasAnyRole("admin", "cooperator")
-                .requestMatchers("/api/location/**").hasAnyRole("admin", "cooperator", "business", "client")
+                .requestMatchers("/api/users/**").hasAnyRole("admin", "staff")
+                .requestMatchers("/api/location/**").hasAnyRole("admin", "staff", "business", "client")
+                .requestMatchers("/api/category/**").hasAnyRole("admin", "staff", "business", "client")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

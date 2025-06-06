@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.util.List;
 
 public interface I_Location {
-
     List<LocationDTO> getLocations();
+    List<LocationDTO> getLocationsByUser (int userID);
+    List<LocationDTO> getLocationsByIsStatus();
+    List<LocationDTO> getLocationsByIsStatusIsFalse();
+    List<LocationDTO> getLocationsByCategory(int categoryID);
     boolean findByLocation_Name(String location_Name);
     LocationDTO addLocation(LocationDTO locationDTO, List<MultipartFile> files) throws IOException;
     int updateLocation(LocationDTO locationDTO);

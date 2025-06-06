@@ -1,6 +1,7 @@
 package com.vuhoang.hueplan.mapper;
 
 import com.vuhoang.hueplan.dto.LocationDTO;
+import com.vuhoang.hueplan.entity.CategoryEntity;
 import com.vuhoang.hueplan.entity.LocationEntity;
 import com.vuhoang.hueplan.entity.LocationPhotoEntity;
 import com.vuhoang.hueplan.entity.UserEntity;
@@ -29,6 +30,10 @@ public class LocationMapper {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với ID: " + dto.getUser_ID()));
         entity.setUser(user);
 
+        CategoryEntity category = new CategoryEntity();
+        category.setCategory_ID(dto.getCategory_ID());
+        entity.setCategory(category);
+
         if (dto.getLocation_Photos() != null) {
             entity.setPhotos(dto.getLocation_Photos().stream()
                     .map(photoDTO -> {
@@ -53,7 +58,7 @@ public class LocationMapper {
         dto.setStatus(entity.isStatus());
         dto.setCreateBy(entity.getCreateBy());
         dto.setUser_ID(entity.getUser().getUser_ID());
-
+        dto.setCategory_ID(entity.getCategory() != null ? entity.getCategory().getCategory_ID() : 0);
         if (entity.getPhotos() != null) {
             dto.setLocation_Photos(entity.getPhotos().stream()
                     .map(photo -> new LocationDTO.PhotoDTO(photo.getPhoto_ID(), photo.getPhoto_URL()))

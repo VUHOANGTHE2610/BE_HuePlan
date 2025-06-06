@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -15,12 +16,13 @@ public class LocationDTO {
     @NotBlank
     private String location_Name;
     private String location_Description;
-    private List<PhotoDTO> location_Photos; // Sửa thành List<PhotoDTO>
+    private List<PhotoDTO> location_Photos;
     private Float location_Cost;
     private String location_Address;
     private boolean isStatus;
     private String createBy;
     private int user_ID;
+    private int category_ID;
 
     @Data
     @AllArgsConstructor

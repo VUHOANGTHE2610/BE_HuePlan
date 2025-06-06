@@ -1,5 +1,6 @@
 package com.vuhoang.hueplan.controller;
 
+import com.vuhoang.hueplan.dto.UserDTO;
 import com.vuhoang.hueplan.entity.ApiResponse;
 import com.vuhoang.hueplan.entity.UserEntity;
 import com.vuhoang.hueplan.service.impl.UserService;
@@ -22,9 +23,9 @@ public class   UserController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<ApiResponse<List<UserEntity>>> getAllUser() {
-        List<UserEntity> users = userService.getAllUser();
-        ApiResponse<List<UserEntity>> response = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<List<UserDTO>>> getAllUser() {
+        List<UserDTO> users = userService.getAllUser();
+        ApiResponse<List<UserDTO>> response = new ApiResponse<>();
         if (users != null & !users.isEmpty()) {
             response.setSuccess(Boolean.TRUE);
             response.setMessage("Đã lấy toàn bộ danh sách Ngươi dùng = getAllUser() /n");
@@ -40,9 +41,9 @@ public class   UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserEntity>> getUserById(@PathVariable("id") int id) {
-        UserEntity user = userService.getUser(id);
-        ApiResponse<UserEntity> response = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<UserDTO>> getUserById(@PathVariable("id") int id) {
+        UserDTO user = userService.getUser(id);
+        ApiResponse<UserDTO> response = new ApiResponse<>();
         if (user != null){
             response.setSuccess(Boolean.TRUE);
             response.setMessage("Đã lấy đối tượng người dùng với " + id + " getUserById() /n");
@@ -57,26 +58,8 @@ public class   UserController {
         }
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<ApiResponse<UserEntity>> createUser(@RequestBody UserEntity user) {
-        UserEntity tmp = userService.addUser(user);
-        ApiResponse<UserEntity> response = new ApiResponse<>();
-        if (tmp != null) {
-            response.setSuccess(Boolean.TRUE);
-            response.setMessage("đã thêm đối tượng");
-            response.setData(tmp);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        else {
-            response.setSuccess(Boolean.FALSE);
-            response.setMessage("KHÔNG thể cập nhật đối tượng, kiểm tra lại");
-            response.setData(null);
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-    }
-
         @PutMapping("/update")
-    public ResponseEntity<ApiResponse<Integer>> updateUser(@RequestBody UserEntity user) {
+    public ResponseEntity<ApiResponse<Integer>> updateUser(@RequestBody UserDTO user) {
         Integer tmp =  userService.updateUser(user);
         ApiResponse<Integer> response = new ApiResponse<>();
         if (tmp != null){

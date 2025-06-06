@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
         name = "bearerAuth",
         type = SecuritySchemeType.HTTP,
         scheme = "bearer",
-        bearerFormat = "JWT" // http://localhost:8080/swagger-ui.html
+            bearerFormat = "JWT" // http://localhost:8080/swagger-ui.html
 )
 public class OpenApiConfig {
 }

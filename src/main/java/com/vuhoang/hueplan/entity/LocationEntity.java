@@ -40,6 +40,13 @@ public class LocationEntity {
     @com.fasterxml.jackson.annotation.JsonBackReference
     private UserEntity user;
 
+    @ManyToOne
+    @JoinColumn(name = "category_ID")
+    private CategoryEntity category;
+
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LocationPhotoEntity> photos;
+
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteLocationEntity> favoritedByUsers;
 }

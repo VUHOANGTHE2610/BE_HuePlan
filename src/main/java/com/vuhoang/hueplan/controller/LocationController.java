@@ -27,9 +27,76 @@ public class LocationController {
     @Autowired
     I_Location location;
 
-    //TODO: Cần viết thêm lấy ra danh sach Các Location chưa được duyệt isStatus = 0
-    //TODO: Lấy ra tất cả những địa điểm của UserId có phần role là Business
-    //TODO: Lấy ra danh sách tất cả những địa điểm
+    @GetMapping("/getAllTrue")
+    public ResponseEntity<ApiResponse<List<LocationDTO>>> getAllStatusIsTrue() {
+        List<LocationDTO> lstDto = location.getLocationsByIsStatus();
+        ApiResponse<List<LocationDTO>> apiResponse = new ApiResponse<>();
+        if (!lstDto.isEmpty()) {
+            apiResponse.setSuccess(true);
+            apiResponse.setMessage("Đã lấy tat cả địa điểm có isStatuss là true");
+            apiResponse.setData(lstDto);
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        }
+        else {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Lỗi khi lấy tất cả địa điểm có có isStatuss là true ");
+            apiResponse.setData(lstDto);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/getAllFalse")
+    public ResponseEntity<ApiResponse<List<LocationDTO>>> getAllStatusIsTFalse() {
+        List<LocationDTO> lstDto = location.getLocationsByIsStatusIsFalse();
+        ApiResponse<List<LocationDTO>> apiResponse = new ApiResponse<>();
+        if (!lstDto.isEmpty()) {
+            apiResponse.setSuccess(true);
+            apiResponse.setMessage("Đã lấy tat cả địa điểm có isStatuss là true");
+            apiResponse.setData(lstDto);
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        }
+        else {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Lỗi khi lấy tất cả địa điểm có có isStatuss là true ");
+            apiResponse.setData(lstDto);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+    }
+            @GetMapping("/getAllByID/{CategoryID}")
+    public ResponseEntity<ApiResponse<List<LocationDTO>>> getAllByID(@PathVariable int CategoryID) {
+        List<LocationDTO> lstDto = location.getLocationsByCategory(CategoryID);
+        ApiResponse<List<LocationDTO>> apiResponse = new ApiResponse<>();
+        if (!lstDto.isEmpty()) {
+            apiResponse.setSuccess(true);
+            apiResponse.setMessage("đã lay tất cả danh sách với" + CategoryID);
+            apiResponse.setData(lstDto);
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        }
+        else {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("lỗi khi lấy danh sách với " + CategoryID);
+            apiResponse.setData(lstDto);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/getByID/{Userid}")
+    public ResponseEntity<ApiResponse<List<LocationDTO>>> getByID(@PathVariable int Userid) {
+        List<LocationDTO> lstDto = location.getLocationsByUser(Userid);
+        ApiResponse<List<LocationDTO>> apiResponse = new ApiResponse<>();
+        if (!lstDto.isEmpty()) {
+            apiResponse.setSuccess(true);
+            apiResponse.setMessage("đã lấy danh sách địa điểm với user id thành công");
+            apiResponse.setData(lstDto);
+            return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        }
+        else {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("đã có lỗi khi lấy danh người dùng với" + Userid);
+            apiResponse.setData(lstDto);
+            return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+        }
+
+
+    }
 
     @GetMapping("/getAll")
     public ResponseEntity<ApiResponse<List<LocationDTO>>> getLocations() {
@@ -115,8 +182,11 @@ public class LocationController {
             return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
         }
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<LocationDTO>> updateLocation(@PathVariable("id") int id, @Valid @RequestBody LocationDTO locationDTO) {
+    public ResponseEntity<ApiResponse<LocationDTO>> updateLocation(
+            @PathVariable("id") int id,
+            @Valid @RequestBody LocationDTO locationDTO) {
         locationDTO.setUser_ID(locationDTO.getUser_ID());
         int updated = location.updateLocation(locationDTO);
         ApiResponse<LocationDTO> apiResponse = new ApiResponse<>();
@@ -134,7 +204,7 @@ public class LocationController {
         }
     }
 
-    @PutMapping("/{id}/status")
+    @PutMapping("/{id}/status/{isStatus}")
     @Transactional
     public ResponseEntity<ApiResponse<LocationDTO>> setIsStatus(
             @PathVariable("id") int id,

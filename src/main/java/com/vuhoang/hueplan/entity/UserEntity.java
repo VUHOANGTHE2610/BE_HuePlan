@@ -35,6 +35,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "role")  // (client - Admin - cooperator - business)
     private String role;
 
+//    @Column(name = "isStatus")
+//    private boolean isStatus;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<TimeLineEntity> timeLine;
@@ -42,6 +45,12 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @com.fasterxml.jackson.annotation.JsonManagedReference
     private List<LocationEntity> location;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @com.fasterxml.jackson.annotation.JsonManagedReference
+    private List<FavoriteLocationEntity> favoriteLocations;
+
+
 
     @Override
     @Transient

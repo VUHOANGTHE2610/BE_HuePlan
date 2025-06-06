@@ -7,6 +7,7 @@ import com.vuhoang.hueplan.mapper.LocationMapper;
 import com.vuhoang.hueplan.repository.LocationPhotoRepository;
 import com.vuhoang.hueplan.repository.LocationRepository;
 import com.vuhoang.hueplan.service.I_Location;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @Transactional
 public class LocationService implements I_Location {
@@ -33,10 +35,54 @@ public class LocationService implements I_Location {
     @Autowired
     private LocationMapper locationMapper;
 
-    //TODO: theem phần chỉ lấy những địa điểm có isStatus = 1
     @Override
     public List<LocationDTO> getLocations() {
         List<LocationEntity> lst = locationRepository.findAll();
+        List<LocationDTO> lstDto = new ArrayList<>();
+        for (LocationEntity entity : lst) {
+            LocationDTO dto = locationMapper.toDTO(entity);
+            lstDto.add(dto);
+        }
+        return lstDto;
+    }
+
+    @Override
+    public List<LocationDTO> getLocationsByUser(int userID) {
+        var lst = locationRepository.getLocationsByUser(userID);
+        List<LocationDTO> lstDto = new ArrayList<>();
+
+        for (LocationEntity entity : lst) {
+            LocationDTO dto = locationMapper.toDTO(entity);
+            lstDto.add(dto);
+        }
+        return lstDto;
+    }
+
+    @Override
+    public List<LocationDTO> getLocationsByCategory(int categoryID) {
+         var lst = locationRepository.getLocationsByCategoryId(categoryID);
+         List<LocationDTO> lstDto = new ArrayList<>();
+         for (LocationEntity entity : lst) {
+             LocationDTO dto = locationMapper.toDTO(entity);
+             lstDto.add(dto);
+         }
+         return lstDto;
+    }
+
+    @Override
+    public List<LocationDTO> getLocationsByIsStatus() {
+        var lst = locationRepository.getLocationsByIsStatus();
+        List<LocationDTO> lstDto = new ArrayList<>();
+        for (LocationEntity entity : lst) {
+            LocationDTO dto = locationMapper.toDTO(entity);
+            lstDto.add(dto);
+        }
+        return lstDto;
+    }
+
+    @Override
+    public List<LocationDTO> getLocationsByIsStatusIsFalse() {
+        var lst = locationRepository.getLocationsByIsStatusIsFalse();
         List<LocationDTO> lstDto = new ArrayList<>();
         for (LocationEntity entity : lst) {
             LocationDTO dto = locationMapper.toDTO(entity);
@@ -108,6 +154,7 @@ public class LocationService implements I_Location {
 
         return locationMapper.toDTO(entity);
     }
+
     @Override
     public int updateLocation(LocationDTO locationDTO) {
         if(locationRepository.existsById(locationDTO.getLocation_ID())) {
